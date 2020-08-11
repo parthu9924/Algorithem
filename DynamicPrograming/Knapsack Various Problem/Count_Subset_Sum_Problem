@@ -1,0 +1,46 @@
+package DynamicPrograming.Knapsack;
+
+public class Count_Subset_Sum_Problem {
+int matrix[][];
+	
+	public Count_Subset_Sum_Problem(int n,int sum) {
+		matrix=new int[n+1][sum+1];
+		
+		for(int i=0;i<n+1;i++) {
+			for(int j=0;j<sum+1;j++) {
+				matrix[i][j]=0;
+			}
+		}
+	}
+	public int algo(int array[],int n,int sum) {
+		
+		// base condition
+		if(sum==0) {
+			return 1;
+		}
+		if(n==0 && sum!=0) {
+			return 0;
+		}
+		
+		if(matrix[n][sum]!=0) {
+			return matrix[n][sum];
+		}
+		// recursion 
+		if(array[n-1]<=sum) {
+			matrix[n][sum]=this.algo(array,n-1, sum-array[n-1])+this.algo(array,n-1, sum);
+			return matrix[n][sum];
+		}
+		else {
+			matrix[n][sum]=this.algo(array,n-1, sum);
+			return matrix[n][sum];
+		}
+	}
+	
+	public static void main(String arg[]) {
+		int array[]= {2,3,5,6,8,10};
+		int sum=10;
+		int n=6;
+		Count_Subset_Sum_Problem obj=new Count_Subset_Sum_Problem(n,sum);
+		System.out.print(obj.algo(array,n, sum));
+	}
+}
