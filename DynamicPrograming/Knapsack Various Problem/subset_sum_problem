@@ -1,0 +1,47 @@
+package DynamicPrograming.Knapsack;
+
+public class Subset_Sum_Problem {
+	boolean matrix[][];
+	
+	public Subset_Sum_Problem(int n,int sum) {
+		matrix=new boolean[n+1][sum+1];
+		
+		for(int i=0;i<n+1;i++) {
+			for(int j=0;j<sum+1;j++) {
+				matrix[i][j]=false;
+			}
+		}
+	}
+	
+	public boolean algo(int array[],int n,int sum) {
+		
+		// base condition
+		if(sum==0) {
+			return true;
+		}
+		if(n==0 && sum!=0) {
+			return false;
+		}
+		
+		if(matrix[n][sum]==true) {
+			return true;
+		}
+		// recursion 
+		if(array[n-1]<=sum) {
+			matrix[n][sum]=(this.algo(array,n-1, sum-array[n-1]) || this.algo(array,n-1, sum));
+			return matrix[n][sum];
+		}
+		else {
+			matrix[n][sum]=this.algo(array,n-1, sum);
+			return matrix[n][sum];
+		}
+	}
+	
+	public static void main(String arg[]) {
+		int array[]= {2,3,7,8,10};
+		int sum=31;
+		int n=5;
+		Subset_Sum_Problem obj=new Subset_Sum_Problem(n,sum);
+		System.out.println("answer : "+obj.algo(array,n, sum));
+	}
+}
