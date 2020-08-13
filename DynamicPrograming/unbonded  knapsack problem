@@ -1,0 +1,55 @@
+package DynamicPrograming;
+
+public class UnBounded_Knapsack_Algorithem {
+	
+	int matrix[][]=null;
+	public UnBounded_Knapsack_Algorithem(int w,int n) {
+		matrix=new int[w+1][n+1];
+		
+		for(int i=0;i<w+1;i++) {
+			for(int j=0;j<n+1;j++) {
+				matrix[i][j]=-1;
+			}
+		}
+	}
+	
+	private int max(int a,int b) {
+		
+		if(a>b) {
+			return a;
+		}
+		else {
+			return b;
+		}
+	}
+	public int knapsack(int value[],int weight[],int W,int n) {
+		
+		if(n==0 || W<=0) {
+			return 0;
+		}
+		if(matrix[W][n]!=-1) {
+			return matrix[W][n];
+		}
+		
+		if(weight[n-1]<=W) {
+			matrix[W][n]=this.max(value[n-1]+this.knapsack(value, weight,W-weight[n-1],n),
+					this.knapsack(value, weight,W, n-1));
+			return matrix[W][n];
+		}
+		else{
+			matrix[W][n]=this.knapsack(value, weight, W, n-1);
+			return matrix[W][n];
+		}
+	}
+	
+	public static void main(String []args) {
+		
+		int val[]={10, 40, 50, 70};
+	    int wt[]={1, 3, 4, 5};
+	    int W=8;
+	    int n=4;
+	    UnBounded_Knapsack_Algorithem obj=new UnBounded_Knapsack_Algorithem(W,n);
+	    System.out.println("profit is : "+obj.knapsack(val,wt, W, n));
+		
+	}
+}
